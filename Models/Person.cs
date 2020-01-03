@@ -1,4 +1,3 @@
-
 using System.ComponentModel.DataAnnotations;
 
 namespace UniverseExplorer.Models
@@ -7,9 +6,14 @@ namespace UniverseExplorer.Models
   {
     public int Id { get; set; }
 
-    public string ActorName { get; set; }
+    [Required]
     public string CharacterName { get; set; }
-    public bool MainCharacter { get; set; }
+
+    public string ActorName { get; set; }
+
+    public bool MainCharacter { get; set; } = true;
+
+    public bool Human { get; set; } = true;
 
     public Place Place { get; set; }
   }
