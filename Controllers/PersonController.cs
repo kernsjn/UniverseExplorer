@@ -10,36 +10,19 @@ namespace UniverseExplorer.Controllers
   public class PersonController : ControllerBase
   {
     [HttpPost]
-    public ActionResult CreatePerson()
+    public ActionResult CreatePerson(int id)
     {
       var db = new DatabaseContext();
-      var place = db.Places
-        .FirstOrDefault(place => places.Id);
-      if (place == null)
+      var onePlace = db.Places
+        .FirstOrDefault(i => i.Id == id);
+      if (onePlace == null)
       {
         return NotFound();
       }
       else
       {
-        var newPerson = new Person
-        {
-          CharacterName = newPerson.CharacterName,
-          ActorName = newPerson.ActorName,
-          CharacterName = newPerson.CharacterName,
-          CharacterName = newPerson.Human,
 
-        };
-        db.Person.Add(newPerson);
-        db.SaveChanges();
-        var np = new CreatedNewPerson
-        {
-          Id = newPerson.Id,
-          AttendanceIssues = newPerson.CharacterName,
-          DoingWell = newPerson.ActorName,
-          StudentId = newPerson.CharacterName,
-          Improvement = newPerson.Human
-        };
-        return Ok(np);
+        return Ok(onePlace);
       }
     }
   }

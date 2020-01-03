@@ -16,38 +16,21 @@ namespace UniverseExplorer.Controllers
     {
       // return a list of all students ordered by fullname
       var db = new DatabaseContext();
-      return Ok(db.Places.OrderBy(place => place.ShipName));
+      return Ok(db.Places.OrderBy(place => place.PlaceName));
     }
 
     [HttpGet("{id}")]
     public ActionResult GetOneShip(int id)
     {
       var db = new DatabaseContext();
-      var place = db.Places.Include(i => i.Person).FirstOrDefault(pl => pl.Id == id);
-      if (place == null)
+      var onePlace = db.Places.FirstOrDefault(i => i.Id == id);
+      if (onePlace == null)
       {
         return NotFound();
       }
       else
       {
-        // create our json object
-        var nd = new PlaceDetails
-        {
-          Id = place.Id,
-          PlaceName = place.PlaceName,
-          ShortDescription = place.ShortDescription,
-          Person = place.Person.Select(nd => new CreatedPerson
-          {
-
-            CharacterName = nd.CharacterName,
-            ActorName = nd.ActorName,
-            CharacterName = nd.CharacterName,
-            CharacterName = nd.Human,
-            Id = nd.Id
-
-          }).ToList()
-        };
-        return Ok(nd);
+        return Ok(onePlace);
       }
     }
 
@@ -62,7 +45,7 @@ namespace UniverseExplorer.Controllers
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdatePlace(Place place)
+    public ActionResult UpdatePlace(int id, Place place)
     {
       var db = new DatabaseContext();
       var prevPlace = db.Places.FirstOrDefault(pl => pl.Id == place.Id);
@@ -72,9 +55,9 @@ namespace UniverseExplorer.Controllers
       }
       else
       {
-        prevPlaceName = place.PlaceName,
-          prevShortDescription = place.ShortDescription,
- 
+        prevPlace.PlaceName = place.PlaceName;
+        prevPlace.ShortDescription = place.ShortDescription;
+
         db.SaveChanges();
         return Ok(prevPlace);
       }
@@ -84,7 +67,7 @@ namespace UniverseExplorer.Controllers
     public ActionResult DeletePlace(int id)
     {
       var db = new DatabaseContext();
-      var place = db.Placess.FirstOrDefault(pl => pl.Id == id);
+      var place = db.Places.FirstOrDefault(pl => pl.Id == id);
       if (place == null)
       {
         return NotFound();
