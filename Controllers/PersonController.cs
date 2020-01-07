@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using UniverseExplorer.Models;
+using UniverseExplorer.ViewModels;
 
 
 namespace UniverseExplorer.Controllers
@@ -9,8 +10,8 @@ namespace UniverseExplorer.Controllers
   [Route("api/[controller]")]
   public class PersonController : ControllerBase
   {
-   
-       [HttpGet]
+
+    [HttpGet]
     public ActionResult GetAllPeople()
     {
       // return a list of all students ordered by fullname
@@ -33,16 +34,41 @@ namespace UniverseExplorer.Controllers
       }
     }
 
-    
-   
-      [HttpPost]
-    public ActionResult CreatePerson(Person person)
+
+
+    [HttpPost]
+    public ActionResult CreatePerson(NewPerson vm)
     {
       var db = new DatabaseContext();
-      person.Id = 0;
-      db.Persons.Add(person);
-      db.SaveChanges();
-      return Ok(person);
+      var place = db.Places.FirstOrDefault(place => place.Id == vm.PlaceId);
+      if (place == null)
+      {
+        return NotFound();
+      }
+      else
+      {
+        var newPerson = new Person
+        {
+          CharacterName = vm.CharacterName,
+          ActorName = vm.ActorName,
+          MainCharacter = vm.MainCharacter,
+          Human = vm.Human,
+          PlaceId = vm.PlaceId
+
+        };
+        db.Persons.Add(newPerson);
+        db.SaveChanges();
+        var rv = new CreatedPerson
+        {
+          Id = newPerson.Id,
+          CharacterName = newPerson.CharacterName,
+          ActorName = newPerson.ActorName,
+          MainCharacter = newPerson.MainCharacter,
+          PlaceId = newPerson.PlaceId,
+          Human = newPerson.Human
+                  };
+        return Ok(rv);
+      }
     }
 
     [HttpPut("{id}")]
@@ -68,7 +94,7 @@ namespace UniverseExplorer.Controllers
 
 
 
-     [HttpDelete("{id}")]
+    [HttpDelete("{id}")]
     public ActionResult DeletePerson(int id)
     {
       var db = new DatabaseContext();
@@ -84,8 +110,5 @@ namespace UniverseExplorer.Controllers
         return Ok();
       }
     }
-
-
-
   }
 }

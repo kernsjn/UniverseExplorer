@@ -1,12 +1,9 @@
-
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-
-namespace UniverseExplorer.Models
-
+namespace UniverseExplorer.ViewModels
 {
-  public class Place
+  public class PlaceDetails
   {
     public int Id { get; set; }
 
@@ -14,10 +11,7 @@ namespace UniverseExplorer.Models
     public string PlaceName { get; set; }
     public string ShortDescription { get; set; }
 
-    public List<Person> Persons { get; set; }
-  = new List<Person>();
-
-
-
+    public List<CreatedPerson> Persons { get; set; }
+  = new List<CreatedPerson>();
   }
 }

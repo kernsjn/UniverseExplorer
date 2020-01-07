@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniverseExplorer.Models;
-
+using UniverseExplorer.ViewModels;
 
 namespace UniverseExplorer.Controllers
 {

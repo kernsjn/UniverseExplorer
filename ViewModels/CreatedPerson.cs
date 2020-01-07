@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace UniverseExplorer.Models
+namespace UniverseExplorer.ViewModels
 {
-  public class Person
+  public class CreatedPerson
   {
     public int Id { get; set; }
 
@@ -16,7 +16,5 @@ namespace UniverseExplorer.Models
     public bool Human { get; set; } = true;
 
     public int PlaceId { get; set; }
-
-    public Place Place { get; set; }
   }
 }
